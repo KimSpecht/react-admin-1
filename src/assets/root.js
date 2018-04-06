@@ -1,11 +1,14 @@
 import React from 'react';
-import { HashRouter as Router, Route, Switch } from 'react-router-dom';
+import {Router, Route, Switch } from 'react-router-dom';
+
 
 import BasicLayout from './layouts/BasicLayout';
 import UserLayout from './layouts/UserLayout';
 
 import Dashboard from './routes/Dashboard';
 import Login from './routes/User/Login';
+import history from './history';
+
 
 // {
 //   component: BasicLayout,
@@ -45,7 +48,7 @@ function Root() {
     }
   };
   return (
-    <Router>
+    <Router history={history}>
       <Switch>
         <Route path="/user" render={props =><UserLayout {...props} {...passProps} />}/>
         <Route path="/" render={props => <BasicLayout {...props} {...passProps} />}/>
