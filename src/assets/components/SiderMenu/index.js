@@ -67,8 +67,16 @@ class SiderMenu extends React.Component {
   }
 
   render() {
+    const { collapsed  } = this.props;
     return (
-      <Sider breakpoint="md" width={256} className={styles.sider}>
+      <Sider
+        trigger={null}
+        breakpoint="md"
+        width={256}
+        className={styles.sider}
+        collapsible
+        collapsed={collapsed}
+      >
         <div className={styles.logo}>
           <Link to="/">
             <img src={logo} alt="logo" />

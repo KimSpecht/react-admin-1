@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { Layout, Icon, Dropdown, Avatar, Menu } from 'antd';
 
 import styles from './index.less';
@@ -7,7 +6,12 @@ import styles from './index.less';
 const { Header } = Layout;
 
 class GlobalHeader extends React.PureComponent {
+  toggle =()=> {
+    const { collapsed, onCollapse } = this.props;
+    onCollapse(!collapsed);
+  }
   render() {
+    const { collapsed, onMenuClick} = this.props;
     const currentUser = {
       name: 'travisxu',
       avatar:
@@ -17,7 +21,7 @@ class GlobalHeader extends React.PureComponent {
       <Menu
         className={styles.menu}
         selectedKeys={[]}
-        onClick={this.handleMenuClick}
+        onClick={onMenuClick}
       >
         <Menu.Item disabled>
           <Icon type="user" />个人中心
@@ -28,13 +32,14 @@ class GlobalHeader extends React.PureComponent {
         <Menu.Divider />
         <Menu.Item key="logout">
           <Icon type="logout" />
-          <Link to="/user/login">退出登录</Link>
+          退出登录
+          {/* <Link to="/user/login"></Link> */}
         </Menu.Item>
       </Menu>
     );
     return (
       <Header className={styles.header}>
-        <Icon className={styles.trigger} type="menu-unfold" />
+        <Icon className={styles.trigger} type={collapsed ? 'menu-unfold' : 'menu-fold'} onClick={this.toggle} />
         <div className={styles.right}>
           <Dropdown overlay={menu}>
             <span className={`${styles.action} ${styles.account}`}>
@@ -43,7 +48,7 @@ class GlobalHeader extends React.PureComponent {
                 className={styles.avatar}
                 src={currentUser.avatar}
               />
-              {currentUser.name}
+              <span className={styles.name}>{currentUser.name}</span>
             </span>
           </Dropdown>
         </div>

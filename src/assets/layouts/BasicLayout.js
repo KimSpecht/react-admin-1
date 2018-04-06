@@ -1,20 +1,40 @@
 import React from 'react';
+import PropTypes from 'prop-types'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 import { Layout } from 'antd';
 import { Switch, Route } from 'react-router-dom';
 
+import * as Actions from '../actions';
 import SiderMenu from '../components/SiderMenu';
 import GlobalHeader from '../components/GlobalHeader';
 import GlobalFooter from '../components/GlobalFooter';
 
 const { Content } = Layout;
 class BasicLayout extends React.PureComponent {
+  static propTypes = {
+    collapsed: PropTypes.bool.isRequired,
+    actions: PropTypes.object.isRequired // eslint-disable-line
+  }
+  handleMenuCollapse = (collapsed) => {
+    this.props.actions.toggleSidebar(collapsed);
+  };
+  handleMenuClick = ({ key }) => {
+    if( key === 'logout'){
+      this.props.actions.logout();
+    }
+  }
   render() {
-    const { getRouteData } = this.props;
+    const { getRouteData, collapsed } = this.props;
     return (
       <Layout>
-        <SiderMenu />
+        <SiderMenu collapsed={collapsed} onCollapse={this.handleMenuCollapse} />
         <Layout>
-          <GlobalHeader />
+          <GlobalHeader
+            collapsed={collapsed}
+            onCollapse={this.handleMenuCollapse}
+            onMenuClick={this.handleMenuClick}
+          />
           <Content style={{ margin: '24px 24px 0', height: '100%' }}>
             <div style={{ minHeight: 'calc(100vh - 260px)' }}>
               <Switch>
@@ -36,4 +56,16 @@ class BasicLayout extends React.PureComponent {
   }
 }
 
-export default BasicLayout;
+const mapStateToProps = state => ({
+  collapsed: state.collapsed
+})
+
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(Actions, dispatch)
+})
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(BasicLayout)
+
