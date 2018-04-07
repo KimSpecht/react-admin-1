@@ -1,7 +1,12 @@
+sudo: required
+
 language: node_js
 
 node_js:
   - "6"
+
+services:
+  - docker
 
 env:
   - TAF_CONFIG=true
@@ -12,4 +17,6 @@ install:
 script:
   - npm run lint
   - npm test
-  - npm run release
+  - npm run deploy
+  - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
+  - docker push zhengweixu/react-admin

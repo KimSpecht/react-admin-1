@@ -1,7 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types'
-// import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Layout } from 'antd';
 import { Switch, Route } from 'react-router-dom';
 
@@ -13,20 +12,21 @@ import GlobalFooter from '../components/GlobalFooter';
 const { Content } = Layout;
 class BasicLayout extends React.PureComponent {
   static propTypes = {
-    collapsed: PropTypes.bool.isRequired,
-    actions: PropTypes.object.isRequired // eslint-disable-line
-  }
-  handleMenuCollapse = (collapsed) => {
-    this.props.actions.toggleSidebar(collapsed);
+    collapsed: PropTypes.bool.isRequired
   };
+
+  handleMenuCollapse = collapsed => {
+    const { dispatch } = this.props;
+    dispatch(Actions.toggleSidebar(collapsed));
+  };
+
   handleMenuClick = ({ key }) => {
-    console.log(this.props.dispatch)
-    const {dispatch} = this.props;
-    if( key === 'logout'){
-      // this.props.actions.logout();
-      dispatch(Actions.logout(dispatch))
+    const { dispatch } = this.props;
+    if (key === 'logout') {
+      dispatch(Actions.logout(dispatch));
     }
-  }
+  };
+
   render() {
     const { getRouteData, collapsed } = this.props;
     return (
@@ -61,14 +61,6 @@ class BasicLayout extends React.PureComponent {
 
 const mapStateToProps = state => ({
   collapsed: state.collapsed
-})
+});
 
-// const mapDispatchToProps = dispatch => ({
-//   actions: bindActionCreators(Actions, dispatch)
-// })
-
-export default connect(
-  mapStateToProps,
-  // mapDispatchToProps
-)(BasicLayout)
-
+export default connect(mapStateToProps)(BasicLayout);
