@@ -1,13 +1,18 @@
 import 'whatwg-fetch';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import reducer from './reducers';
+import promiseMiddleware from 'redux-promise';
+import logger from 'redux-logger';
 import Root from './root';
 import './index.less';
 
-const store = createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+const store = createStore(
+  reducer,
+  applyMiddleware(promiseMiddleware, logger),
+);
 
 ReactDOM.render(
   <Provider store={store}>

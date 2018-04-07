@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types'
-import { bindActionCreators } from 'redux'
+// import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Layout } from 'antd';
 import { Switch, Route } from 'react-router-dom';
@@ -20,8 +20,11 @@ class BasicLayout extends React.PureComponent {
     this.props.actions.toggleSidebar(collapsed);
   };
   handleMenuClick = ({ key }) => {
+    console.log(this.props.dispatch)
+    const {dispatch} = this.props;
     if( key === 'logout'){
-      this.props.actions.logout();
+      // this.props.actions.logout();
+      dispatch(Actions.logout(dispatch))
     }
   }
   render() {
@@ -60,12 +63,12 @@ const mapStateToProps = state => ({
   collapsed: state.collapsed
 })
 
-const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(Actions, dispatch)
-})
+// const mapDispatchToProps = dispatch => ({
+//   actions: bindActionCreators(Actions, dispatch)
+// })
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  // mapDispatchToProps
 )(BasicLayout)
 

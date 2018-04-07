@@ -1,4 +1,8 @@
 import history from '../history';
+import {
+  TOGGLE_SIDEBAR,
+  LOGOUT
+} from '../constants/ActionTypes';
 
 const initialState = {
   collapsed: false
@@ -6,10 +10,12 @@ const initialState = {
 
 export default function(state = initialState, action) {
   switch (action.type) {
-    case 'TOGGLE_SIDEBAR':
+    case TOGGLE_SIDEBAR:
       return { ...state, collapsed : action.collapsed}
-    case 'LOGOUT':
-      return history.push('/user/login')
+    case LOGOUT:
+      console.log(action.payload);
+      history.push('/user/login')
+      return state;
     default:
       return state;
   }
