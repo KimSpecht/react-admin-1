@@ -23,7 +23,7 @@ class BasicLayout extends React.PureComponent {
   handleMenuClick = ({ key }) => {
     const { dispatch } = this.props;
     if (key === 'logout') {
-      dispatch(Actions.logout(dispatch));
+      dispatch(Actions.logout.request());
     }
   };
 

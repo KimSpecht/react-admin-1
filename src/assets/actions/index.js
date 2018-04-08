@@ -1,18 +1,33 @@
-import * as types from '../constants/ActionTypes';
+const REQUEST = 'REQUEST';
+const SUCCESS = 'SUCCESS';
+const FAILURE = 'FAILURE';
+
+function createRequestTypes(base) {
+  return [REQUEST, SUCCESS, FAILURE].reduce((acc, type) => {
+    acc[type] = `${base}_${type}`;
+    return acc;
+  }, {});
+}
+
+export const LOGIN = createRequestTypes('LOGIN');
+export const LOGOUT = createRequestTypes('LOGOUT');
+export const GET_USER = createRequestTypes('GET_USER');
+
+export const TOGGLE_SIDEBAR = 'TOGGLE_SIDEBAR';
 
 export const toggleSidebar = collapsed => ({
-  type: types.TOGGLE_SIDEBAR,
+  type: TOGGLE_SIDEBAR,
   collapsed
 });
 
-export function logout(dispatch) {
-  return new Promise(resolve => {
-    dispatch({ type: types.LOGOUT });
-    return fetch('/api/user/logout', { method: 'POST' }).then(res =>
-      resolve({
-        type: types.LOGOUT,
-        payload: res.json()
-      })
-    );
-  });
-}
+export const logout = {
+  request: () => ({
+    type: LOGOUT[REQUEST]
+  }),
+  success: () => ({
+    type: LOGOUT[SUCCESS]
+  }),
+  failure: () => ({
+    type: LOGOUT[FAILURE]
+  })
+};
